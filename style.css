@@ -228,12 +228,14 @@ nav a {
 } 
  
 .detail { 
-    background-color: white; 
+    background-color: #bdeec4; 
     display: flex;
     flex-wrap: wrap;
     gap: 40px; 
-    padding: 30px; 
-} 
+    padding: 35px; 
+    border: 2px solid #d7cfc0; 
+    border-radius: 15px; 
+    box-shadow: 0 15px 30px rgba(36, 52, 46, 0.15); }
  
 .detail img { 
     flex: 1 1 350px;
@@ -241,14 +243,21 @@ nav a {
     max-width: 500px;
     height: 400px; 
     object-fit: cover; 
+    border: 4px solid #ffffff;
+    border-radius: 12px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
 } 
  
 .detail-text { 
     flex: 1 1 350px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 } 
  
 .detail-text h1 { 
     margin-bottom: 20px; 
+    border-bottom: 3px solid #d77b42; 
+    padding-bottom: 12px; 
+    color: #2f4f3e; 
 } 
  
 .detail-text h2 { 
@@ -258,7 +267,7 @@ nav a {
  
 .detail-text ul { 
     margin-left: 20px; 
-} 
+}
  
 .about { 
     background-color: white; 
