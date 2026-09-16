@@ -20,7 +20,9 @@ header {
     z-index: 1000;    
 } 
 
-
+a {
+    text-decoration: none;
+}
  
 nav { 
     max-width: 1100px; 
