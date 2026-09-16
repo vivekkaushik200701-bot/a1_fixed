@@ -7,13 +7,19 @@
 body { 
     font-family: Arial, sans-serif; 
     line-height: 1.6; 
-     background-color: #f4f1e8; 
-     color: #2f3e34; 
+    background-color: #f4f1e8; 
+    color: #2f3e34; 
+    padding-top: 70px; 
 } 
  
 header { 
     background-color: #2f4f3e; 
-}
+    position: fixed;   
+    top: 0;            
+    width: 100%;       
+    z-index: 1000;    
+} 
+
 
  
 nav { 
