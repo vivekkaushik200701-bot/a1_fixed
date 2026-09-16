@@ -76,13 +76,26 @@ nav a {
 } 
  
 .hero-text { 
-    background-color: rgba(35, 55, 42, 0.75); 
+    background-color: rgba(35, 55, 42, 0.85); 
     color: white; 
     padding: 40px; 
     max-width: 650px; 
     position: relative; 
     z-index: 1; 
+    
+    
+    text-align: center; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    border: 3px solid rgba(255, 255, 255, 0.4); 
+    border-radius: 18px; 
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); 
+    transition: background-color 0.4s ease; 
 } 
+
+
+.hero-text:hover {
+    background-color: rgba(47, 79, 62, 0.98); 
+}
  
 .hero-text h1 { 
     font-size: 42px; 
