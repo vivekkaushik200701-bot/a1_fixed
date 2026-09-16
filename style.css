@@ -58,7 +58,11 @@ nav a {
     background-color: #496b55; 
 }
 
- 
+
+.adventure_title {
+    color: #2f4f3e;
+}
+
 .hero { 
     height: 455px; 
     position: relative; 
