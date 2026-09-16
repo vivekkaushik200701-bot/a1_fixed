@@ -270,12 +270,26 @@ nav a {
 }
  
 .about { 
-    background-color: white; 
+
+    background: linear-gradient(145deg, #ffffff 0%, #f0f4f1 100%);
     display: flex;
     flex-wrap: wrap;
     gap: 40px; 
-    padding: 35px; 
+    padding: 45px; 
+    border-radius: 16px; 
+   
+    border-top: 6px solid #2f4f3e; 
+  
+    box-shadow: 0 15px 35px rgba(47, 79, 62, 0.12); 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
 } 
+
+.about:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 45px rgba(47, 79, 62, 0.22);
+}
  
 .about > div { 
     flex: 1 1 350px;
@@ -283,34 +297,72 @@ nav a {
  
 .about h1 { 
     margin-bottom: 20px; 
+    border-bottom: 3px solid #d77b42; 
+    padding-bottom: 12px;
+    color: #2f4f3e;
+    display: inline-block; 
 } 
  
 .about p { 
     margin-bottom: 15px; 
+    line-height: 1.8; 
+    color: #3a4740; 
 } 
  
 .about-box { 
-    background-color: #e8eee7; 
-    padding: 25px; 
+   
+    background: linear-gradient(135deg, #e6eee8 0%, #d9e3db 100%); 
+    padding: 35px; 
+    border-radius: 14px;
+  
+    border-left: 6px solid #d77b42; 
+   
+    box-shadow: inset 0 2px 10px rgba(255,255,255,0.7), 0 10px 20px rgba(0,0,0,0.06); 
 }
  
+.about-box h2 {
+    color: #2f4f3e;
+}
+
 .about-box ol { 
     margin-left: 20px; 
+    margin-top: 15px;
+    line-height: 1.8;
+    color: #3a4740;
 } 
  
 .project-info { 
-    background-color: white; 
-    padding: 35px; 
-    margin-top: 30px; 
+   
+    background: linear-gradient(145deg, #ffffff 0%, #f0f4f1 100%);
+    padding: 45px; 
+    margin-top: 50px; 
+    border-radius: 16px; 
+   
+    border-top: 6px solid #d77b42; 
+    box-shadow: 0 15px 35px rgba(215, 123, 66, 0.12); 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center; 
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
 } 
+
+.project-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 45px rgba(215, 123, 66, 0.22);
+}
  
 .project-info h2 { 
-    margin-bottom: 15px; 
+    margin-bottom: 20px; 
+    border-bottom: 3px solid #2f4f3e;
+    padding-bottom: 12px;
+    color: #2f4f3e;
+    display: inline-block;
 } 
  
 .project-info p { 
-    margin-bottom: 10px; 
-} 
+    margin-bottom: 15px; 
+    line-height: 1.8;
+    color: #3a4740;
+}
  
 .contact { 
     max-width: 900px;
