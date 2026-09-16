@@ -293,7 +293,7 @@ button {
 } 
  
 button:hover { 
-    background-color: #b85f32; 
+    background: #005fcc;
 }
  
 footer { 
