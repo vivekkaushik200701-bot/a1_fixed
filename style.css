@@ -263,13 +263,12 @@ form {
  
 label { 
     font-weight: bold;
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-}
-
-input,
-select,
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+ 
+input, 
+select, 
 textarea { 
     width: 100%;
     padding: 12px 14px;
