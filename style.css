@@ -261,11 +261,10 @@ form {
 } 
  
 label { 
-    display: block; 
-    margin-top: 15px; 
-    margin-bottom: 5px; 
-    font-weight: bold; 
-} 
+    font-weight: bold;
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
  
 input, 
 select, 
