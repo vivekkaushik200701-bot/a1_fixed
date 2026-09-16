@@ -78,6 +78,12 @@ nav {
     margin-bottom: 15px; 
 } 
  
+.tag_line {
+    font-family: 'Oleo Script', cursive;
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
 .hero-text p { 
     font-size: 20px; 
     margin-bottom: 25px; 
