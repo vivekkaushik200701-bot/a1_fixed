@@ -26,9 +26,14 @@ nav {
     flex-wrap: wrap;
     gap: 15px;
 } 
+
+nav a {
+    text-decoration: none;
+}
  
 .logo { 
     color: white; 
+    text-decoration: none;
 } 
  
 .nav-links { 
