@@ -322,7 +322,6 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-    outline: none;
     border-color: #d97745;
     box-shadow: 0 0 0 3px rgba(217, 119, 69, 0.16);
 }
@@ -341,19 +340,15 @@ textarea {
     border-radius: 12px;
     padding: 15px 22px;
     margin-top: 24px;
-    cursor: pointer;
     font-size: 16px;
     font-weight: 700;
-    letter-spacing: 0.4px;
-    box-shadow: 0 12px 24px rgba(183, 93, 49, 0.25);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    
+   
+    
 }
  
 .submit-btn:hover { 
     background: linear-gradient(135deg, #c96d3b, #a94d27);
-    box-shadow: 0 16px 30px rgba(183, 93, 49, 0.35);
-    transform: translateY(-2px);
-    filter: brightness(1.02);
 }
  
 footer { 
