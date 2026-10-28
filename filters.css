@@ -1,0 +1,102 @@
+
+/* Filter Panel */
+.filters {
+    margin: 30px 0;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.filters label {
+    display: inline-block;
+    margin: 0;
+    color: #294b3b;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.filters select {
+    flex: 0 1 auto;
+    width: auto;
+    min-width: 160px;
+    padding: 11px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    color: #263b31;
+
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filters select:focus-visible {
+    outline: 2px solid #9bbba6;
+    outline-offset: 2px;
+    border-color: #315b46;
+}
+
+.filters button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 8px;
+
+    background-color: #315b46;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.filters button:hover {
+    background-color: #244735;
+    transform: translateY(-1px);
+}
+
+.filters button:focus-visible {
+    outline: 2px solid #6f9b7c;
+    outline-offset: 2px;
+}
+
+#reset-filters {
+    background-color: #eef2ef;
+    color: #315b46;
+    border: 1px solid #d6e0d9;
+}
+
+#reset-filters:hover {
+    background-color: #dfe9e2;
+}
+
+#filter-result {
+    flex-basis: 100%;
+    margin: 4px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* Filter Panel on Small Screens */
+@media (max-width: 600px) {
+    .filters {
+        padding: 16px;
+        gap: 10px;
+    }
+
+.filters select {
+    flex: 1 1 150px;
+    min-width: 120px;
+}
+
+.filters button {
+    flex: 1 1 150px;
+}
+}
