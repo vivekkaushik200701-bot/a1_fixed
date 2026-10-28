@@ -83,20 +83,3 @@
     color: #64748b;
     font-size: 14px;
 }
-
-/* Filter Panel on Small Screens */
-@media (max-width: 600px) {
-    .filters {
-        padding: 16px;
-        gap: 10px;
-    }
-
-.filters select {
-    flex: 1 1 150px;
-    min-width: 120px;
-}
-
-.filters button {
-    flex: 1 1 150px;
-}
-}
