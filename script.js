@@ -1,11 +1,15 @@
 
 var cardsContainer = document.getElementById("adventure-cards");
+var featuredContainer = document.getElementById("featured-adventures");
 var applyButton = document.getElementById("apply-filters");
 var resetButton = document.getElementById("reset-filters");
 
 if (cardsContainer && applyButton && resetButton) {
     applyButton.addEventListener("click", filterAdventures);
     resetButton.addEventListener("click", resetFilters);
+}
+
+if (cardsContainer || featuredContainer) {
     loadAdventures();
 }
 
@@ -19,14 +23,56 @@ function loadAdventures() {
             return response.json();
         })
         .then(function (adventures) {
-            adventures.forEach(createAdventureCard);
-            filterAdventures();
+            if (cardsContainer) {
+                adventures.forEach(createAdventureCard);
+                filterAdventures();
+            }
+
+            if (featuredContainer) {
+                adventures.slice(0, 4).forEach(createFeaturedCard);
+            }
         })
         .catch(function (error) {
             console.error("Error loading adventures:", error);
-            cardsContainer.textContent =
-                "Unable to load adventures. Please try again later.";
+            if (cardsContainer) {
+                cardsContainer.textContent =
+                    "Unable to load adventures. Please try again later.";
+            }
+            if (featuredContainer) {
+                featuredContainer.textContent =
+                    "Unable to load featured adventures. Please try again later.";
+            }
         });
+}
+
+function createFeaturedCard(adventure) {
+    var card = document.createElement("div");
+    card.className = "card";
+
+    var image = document.createElement("img");
+    image.src = adventure.image;
+    image.alt = adventure.alt;
+    card.appendChild(image);
+
+    var content = document.createElement("div");
+    content.className = "card-content";
+
+    var heading = document.createElement("h3");
+    heading.textContent = adventure.name;
+    content.appendChild(heading);
+
+    var description = document.createElement("p");
+    description.textContent = adventure.description;
+    content.appendChild(description);
+
+    var link = document.createElement("a");
+    link.href = adventure.link;
+    link.className = "small-button";
+    link.textContent = "View Adventure";
+    content.appendChild(link);
+
+    card.appendChild(content);
+    featuredContainer.appendChild(card);
 }
 
 function createAdventureCard(adventure) {
