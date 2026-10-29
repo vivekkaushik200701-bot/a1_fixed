@@ -2,6 +2,7 @@ var contactForm = document.getElementById("contact-form");
 var statusMessage = document.getElementById("form-status");
 var messageCount = document.getElementById("message-count");
 var messageInput = document.getElementById("message");
+var submitButton = contactForm.querySelector('button[type="submit"]');
 
 var formFields = [
     {
@@ -58,9 +59,13 @@ var formFields = [
     }
 ];
 
-contactForm.addEventListener("submit", function (event) {
+contactForm.addEventListener("submit", async function (event) {
     event.preventDefault();
     clearStatus();
+
+    if (!contactForm.reportValidity()) {
+        return;
+    }
 
     var submission = {};
 
@@ -77,20 +82,40 @@ contactForm.addEventListener("submit", function (event) {
         submission[field.name] = value;
     }
 
-    submission.getConfirmation = function () {
-        return "Thanks, " + this.name + ". Your message was saved on this device.";
-    };
+    submitButton.disabled = true;
+    try {
+        var response = await fetch('/api/contact', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(submission)
+        });
+        var responseBody = await response.text();
+        var result;
+        try {
+            result = JSON.parse(responseBody);
+        } catch (error) {
+            throw new Error(
+                "The contact endpoint returned a non-JSON response (HTTP " +
+                response.status + "). Run npm start and open " +
+                "http://localhost:3000/contact.html; Live Server and static hosting cannot save submissions."
+            );
+        }
 
-    var saveResult = saveSubmission(submission);
-    if (!saveResult.success) {
-        showFormError(saveResult.message, null);
-        return;
+        if (!response.ok) {
+            throw new Error(result.error || "Your message could not be saved.");
+        }
+
+        statusMessage.textContent = "Thanks, " + submission.name +
+            ". Your message was received.";
+        contactForm.reset();
+        updateMessageCount();
+    } catch (error) {
+        showFormError(error instanceof TypeError
+            ? "Could not reach the contact server. Start it and try again."
+            : error.message || "Your message could not be saved.", null);
+    } finally {
+        submitButton.disabled = false;
     }
-
-    statusMessage.textContent = submission.getConfirmation() +
-        " It has not been sent to an inbox.";
-    contactForm.reset();
-    updateMessageCount();
 });
 
 for (var fieldIndex = 0; fieldIndex < formFields.length; fieldIndex++) {
@@ -100,50 +125,6 @@ for (var fieldIndex = 0; fieldIndex < formFields.length; fieldIndex++) {
 
 messageInput.addEventListener("input", updateMessageCount);
 updateMessageCount();
-
-function saveSubmission(submission) {
-    var savedSubmissions;
-
-    try {
-        var storedSubmissions = window.localStorage.getItem(
-            "randomAdventureContactSubmissions"
-        );
-        savedSubmissions = storedSubmissions ? JSON.parse(storedSubmissions) : [];
-    } catch (error) {
-        return {
-            success: false,
-            message: "Saved messages could not be read from this browser."
-        };
-    }
-
-    if (!Array.isArray(savedSubmissions)) {
-        return {
-            success: false,
-            message: "Saved messages have an invalid format. Please clear the browser's saved contact data and try again."
-        };
-    }
-
-    savedSubmissions.push({
-        name: submission.name,
-        email: submission.email,
-        subject: submission.subject,
-        message: submission.message
-    });
-
-    try {
-        window.localStorage.setItem(
-            "randomAdventureContactSubmissions",
-            JSON.stringify(savedSubmissions)
-        );
-    } catch (error) {
-        return {
-            success: false,
-            message: "Your message could not be saved in this browser."
-        };
-    }
-
-    return { success: true, message: "" };
-}
 
 function updateMessageCount() {
     messageCount.textContent = messageInput.value.length + "/500 characters";

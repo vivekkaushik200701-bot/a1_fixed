@@ -26,13 +26,13 @@
 
     <form id="contact-form">
         <label for="name">Full Name</label>
-        <input type="text" id="name" placeholder="Enter your name" required>
+        <input type="text" id="name" name="name" placeholder="Enter your name" minlength="2" maxlength="50" required>
 
         <label for="email">Email Address</label>
-        <input type="email" id="email" placeholder="Enter your email" required>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
         <label for="subject">Subject</label>
-        <select id="subject">
+        <select id="subject" name="subject" required>
             <option>General Inquiry</option>
             <option>Support</option>
             <option>Feedback</option>
@@ -40,10 +40,11 @@
         </select>
 
         <label for="message">Message</label>
-        <textarea id="message" rows="4" placeholder="Write your message..." required></textarea>
+        <textarea id="message" name="message" rows="4" placeholder="Write your message..." minlength="10" maxlength="500" required></textarea>
+        <p id="message-count" aria-live="polite">0/500 characters</p>
 
         <button type="submit" class="submit-btn">Send Message</button>
-        <p id="contact-status" role="status" aria-live="polite"></p>
+        <p id="form-status" role="status" aria-live="polite"></p>
     </form>
 </div>
 

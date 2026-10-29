@@ -32,7 +32,9 @@ test('Filter buttons and contact form have handlers and validation', () => {
     assert.match(contact, /type="email"[^>]*required/);
     assert.match(contact, /id="name"[^>]*required/);
     assert.match(contact, /id="message"[^>]*required/);
-    assert.match(contactJs, /form.reportValidity\(\)/);
+    assert.match(contact, /id="form-status"/);
+    assert.match(contact, /id="message-count"/);
+    assert.match(contactJs, /contactForm.reportValidity\(\)/);
     assert.match(contactJs, /fetch\('\/api\/contact'/);
 });
 test('Contact API validates inputs and persists data in JSON', async () => {
@@ -50,13 +52,21 @@ test('Contact API validates inputs and persists data in JSON', async () => {
         }
         assert.ok(ready, 'server did not start');
         const submit = data => fetch(`http://127.0.0.1:${port}/api/contact`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-        assert.equal((await submit({ name: '', email: 'bad', subject: 'Support', message: '' })).status, 400);
+        const invalidResponse = await submit({ name: '', email: 'bad', subject: 'Support', message: '' });
+        assert.equal(invalidResponse.status, 400);
+        assert.match(invalidResponse.headers.get('content-type'), /application\/json/);
         const good = { name: 'Test User', email: 'test@example.com', subject: 'Feedback', message: 'Testing storage' };
-        assert.equal((await submit(good)).status, 201);
+        const goodResponse = await submit(good);
+        assert.equal(goodResponse.status, 201);
+        assert.match(goodResponse.headers.get('content-type'), /application\/json/);
         const saved = JSON.parse(fs.readFileSync(path.join(temp, 'contact-submissions.json'), 'utf8'));
         assert.equal(saved.length, 1);
         assert.equal(saved[0].message, good.message);
         assert.ok(saved[0].submittedAt);
         assert.equal((await fetch(`http://127.0.0.1:${port}/contact-submissions.json`)).status, 404);
-    } finally { child.kill(); fs.rmSync(temp, { recursive: true, force: true }); }
+    } finally {
+        child.kill();
+        await new Promise(resolve => child.once('exit', resolve));
+        fs.rmSync(temp, { recursive: true, force: true });
+    }
 });
