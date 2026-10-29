@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggest an Adventure - Random Adventure</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .suggestion-page {
+            max-width: 760px;
+            padding-top: 55px;
+            padding-bottom: 60px;
+        }
+
+        .suggestion-page h1 {
+            margin-bottom: 10px;
+            color: #2f4f3e;
+        }
+
+        .suggestion-page > p {
+            margin-bottom: 25px;
+            color: #586258;
+        }
+
+        .suggestion-form {
+            max-width: 620px;
+        }
+
+        .suggestion-form label {
+            display: block;
+            margin-top: 16px;
+            font-weight: 600;
+        }
+
+        .suggestion-form input,
+        .suggestion-form select,
+        .suggestion-form textarea {
+            display: block;
+            font: inherit;
+        }
+
+        .suggestion-form textarea {
+            min-height: 120px;
+        }
+
+        .suggestion-form .submit-btn:disabled {
+            cursor: wait;
+            opacity: 0.7;
+        }
+
+        .form-status {
+            min-height: 1.6em;
+            margin-top: 14px;
+        }
+
+        .form-status--error {
+            color: #a52e24;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <a href="index.html"><h2 class="logo">Random Adventure</h2></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="adventures.html">Adventures</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="suggest-adventure.html" aria-current="page">Suggest an Adventure</a>
+        </div>
+    </nav>
+</header>
+
+<main class="container suggestion-page">
+    <h1>Suggest an Adventure</h1>
+    <p>Have an idea for something fun to do? Share it with the Random Adventure community.</p>
+
+    <form class="suggestion-form" id="suggestion-form">
+        <label for="activity">Activity name</label>
+        <input type="text" id="activity" name="activity" maxlength="80"
+               placeholder="e.g. Visit a farmers market" required>
+
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+            <option value="">Choose a category</option>
+            <option value="Outdoors">Outdoors</option>
+            <option value="Creative">Creative</option>
+            <option value="Food">Food</option>
+            <option value="Relaxation">Relaxation</option>
+            <option value="Social">Social</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" maxlength="500"
+                  placeholder="What should someone know before trying it?" required></textarea>
+
+        <label for="duration">Time needed (optional)</label>
+        <input type="text" id="duration" name="duration" maxlength="40"
+               placeholder="e.g. About 1 hour">
+
+        <label for="budget">Budget (optional)</label>
+        <select id="budget" name="budget">
+            <option value="">Not specified</option>
+            <option value="Free">Free</option>
+            <option value="Under $20">Under $20</option>
+            <option value="$20-$50">$20-$50</option>
+            <option value="Over $50">Over $50</option>
+        </select>
+
+        <button type="submit" class="submit-btn" id="submit-suggestion">Submit Suggestion</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+    </form>
+
+</main>
+
+<footer>
+    <p>© 2026 Random Adventure | Web Programming Project</p>
+</footer>
+<script src="suggest-adventure.js"></script>
+</body>
+</html>
