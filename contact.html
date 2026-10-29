@@ -24,7 +24,7 @@
     <h1>Contact Us</h1>
     <p>Have an idea for a new adventure? Send us a message!</p>
 
-    <form>
+    <form id="contact-form">
         <label for="name">Full Name</label>
         <input type="text" id="name" placeholder="Enter your name" required>
 
@@ -43,11 +43,13 @@
         <textarea id="message" rows="4" placeholder="Write your message..." required></textarea>
 
         <button type="submit" class="submit-btn">Send Message</button>
+        <p id="contact-status" role="status" aria-live="polite"></p>
     </form>
 </div>
 
 <footer>
     <p>© 2026 Random Adventure | Web Programming Project</p>
 </footer>
+<script src="contact.js"></script>
 </body>
 </html>
