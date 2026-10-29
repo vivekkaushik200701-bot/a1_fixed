@@ -9,14 +9,29 @@ const adventures = [
     { name: "Read a Book", page: "adventure-reading.html" },
     { name: "Photography Walk", page: "adventure-photography.html" },
     { name: "Visit a Cafe", page: "adventure-cafe.html" },
-    { name: "Discover New Music", page: "adventure-music.html" }
+    { name: "Discover New Music", page: "adventure-music.html" },
+    { name: "Hiking" },
+    { name: "Gaming Night" },
+    { name: "Picnic" },
+    { name: "Meditation" },
+    { name: "Stargazing" },
+    { name: "Baking" },
+    { name: "Badminton" },
+    { name: "Journaling" }
 ];
 
 randomAdventureButton.addEventListener("click", () => {
     const adventure = adventures[Math.floor(Math.random() * adventures.length)];
-    const link = document.createElement("a");
 
-    link.href = adventure.page;
-    link.textContent = adventure.name;
-    randomAdventureResult.replaceChildren("How about: ", link, "?");
+    if (adventure.page) {
+        const link = document.createElement("a");
+        link.href = adventure.page;
+        link.textContent = adventure.name;
+        randomAdventureResult.replaceChildren("How about: ", link, "?");
+    } else {
+        const activityName = document.createElement("span");
+        activityName.className = "recommendation-name";
+        activityName.textContent = adventure.name;
+        randomAdventureResult.replaceChildren("How about: ", activityName, "?");
+    }
 });

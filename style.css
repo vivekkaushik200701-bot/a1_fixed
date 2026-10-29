@@ -123,6 +123,22 @@ nav a {
     font-size: 20px; 
     margin-bottom: 25px; 
 } 
+
+#random-adventure-result a,
+#random-adventure-result .recommendation-name {
+    color: #ffd166;
+    font-weight: 700;
+}
+
+#random-adventure-result a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+#random-adventure-result a:hover,
+#random-adventure-result a:focus-visible {
+    color: white;
+}
  
 .container { 
     max-width: 1100px; 
