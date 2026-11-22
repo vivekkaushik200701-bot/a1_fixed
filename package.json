@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
+    "import:data": "node scripts/importAdventures.js",
     "test": "node --test test.js"
   },
   "dependencies": {

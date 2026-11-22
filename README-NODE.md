@@ -16,6 +16,8 @@ Requires Node.js 18 or newer and MongoDB Community Server running locally, or a 
 5. Open `http://localhost:3000` in your browser (do not open the HTML as a file). The MongoDB-backed endpoint is `GET http://localhost:3000/api/adventures`.
 6. Run `npm test` to check the adventure schema and existing website/API functionality. Tests use a temporary directory for contact submissions.
 
+To import the records from `adventures.json` into MongoDB, stop the server if it is running and run `npm run import:data`. The import matches records by adventure name and only inserts names not already in the collection; it does not replace or delete existing records. You can run it again safely.
+
 If `MONGODB_URI` is missing, the server still starts so the existing site and JSON-backed contact/suggestion APIs remain usable, but `/api/adventures` returns `503`. If a configured MongoDB connection fails at startup, the error is printed and the server does not start.
 
 Contact submissions and adventure suggestions continue to be stored locally in JSON files. Do not publish real submissions or commit them to a public repository.
