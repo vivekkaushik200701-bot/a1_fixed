@@ -2,12 +2,12 @@
 const express = require("express");
 const fs = require("node:fs/promises");
 const path = require("node:path");
-const { MongoClient } = require("mongodb");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
+const mongoose = require("mongoose");
+const { connectDatabase } = require("./config/database");
+const Adventure = require("./models/Adventure");
 
 const app = express();
-const mongoClient = process.env.MONGODB_URI
-    ? new MongoClient(process.env.MONGODB_URI)
-    : null;
 const root = __dirname;
 const dataFile = path.join(root, "contact-submissions.json");
 const suggestionsFile = path.join(root, "suggestions.json");
@@ -336,16 +336,12 @@ app.get("/api/weather", async (req, res) => {
 });
 
 app.get("/api/adventures", async (req, res) => {
-    if (!mongoClient) {
-        return res.status(503).json({ error: "Set MONGODB_URI first." });
+    if (mongoose.connection.readyState !== 1) {
+        return res.status(503).json({ error: "MongoDB is not connected." });
     }
 
     try {
-        const adventures = await mongoClient
-            .db("random_adventure")
-            .collection("adventures")
-            .find({})
-            .toArray();
+        const adventures = await Adventure.find({}).lean().exec();
 
         res.json(adventures);
     } catch (error) {
@@ -354,7 +350,36 @@ app.get("/api/adventures", async (req, res) => {
     }
 });
 
-// Start the Express server.
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+async function startServer() {
+    if (process.env.MONGODB_URI) {
+        try {
+            await connectDatabase(process.env.MONGODB_URI);
+            const collectionName = Adventure.collection.collectionName;
+            const collectionExists = await mongoose.connection.db
+                .listCollections({ name: collectionName }, { nameOnly: true })
+                .hasNext();
+
+            if (!collectionExists) {
+                await Adventure.createCollection();
+            }
+
+            console.log(`MongoDB connected; using collection "${collectionName}".`);
+        } catch (error) {
+            console.error("Unable to start because MongoDB connection failed:", error.message);
+            process.exitCode = 1;
+            return;
+        }
+    } else {
+        console.warn("MONGODB_URI is not set; MongoDB-backed adventure requests are disabled.");
+    }
+
+    app.listen(port, () => {
+        console.log(`Server running at http://localhost:${port}`);
+    });
+}
+
+if (require.main === module) {
+    startServer();
+}
+
+module.exports = { app, startServer };

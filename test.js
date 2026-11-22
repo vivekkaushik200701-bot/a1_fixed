@@ -6,6 +6,19 @@ const os = require('node:os');
 const { spawn } = require('node:child_process');
 const root = __dirname;
 const htmlFiles = fs.readdirSync(root).filter(f => f.endsWith('.html'));
+const Adventure = require('./models/Adventure');
+
+test('Adventure model accepts the existing adventure data shape', () => {
+    const adventures = JSON.parse(fs.readFileSync(path.join(root, 'adventures.json'), 'utf8'));
+
+    for (const adventure of adventures) {
+        assert.equal(new Adventure(adventure).validateSync(), undefined);
+    }
+
+    assert.ok(new Adventure({ ...adventures[0], location: 'anywhere' }).validateSync());
+    assert.ok(new Adventure({ ...adventures[0], budget: 'unlimited' }).validateSync());
+});
+
 test('Every local HTML link and asset exists', () => {
     for (const file of htmlFiles) {
         const html = fs.readFileSync(path.join(root, file), 'utf8');
@@ -39,10 +52,24 @@ test('Filter buttons and contact form have handlers and validation', () => {
 });
 test('Contact API validates inputs and persists data in JSON', async () => {
     const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'adventure-test-'));
-    const files = ['server.js', 'index.html', 'contact-submissions.json'];
-    for (const file of files) fs.copyFileSync(path.join(root, file), path.join(temp, file));
+    for (const file of ['server.js', 'index.html']) {
+        fs.copyFileSync(path.join(root, file), path.join(temp, file));
+    }
+    fs.mkdirSync(path.join(temp, 'config'));
+    fs.mkdirSync(path.join(temp, 'models'));
+    fs.copyFileSync(path.join(root, 'config', 'database.js'), path.join(temp, 'config', 'database.js'));
+    fs.copyFileSync(path.join(root, 'models', 'Adventure.js'), path.join(temp, 'models', 'Adventure.js'));
     const port = 30000 + Math.floor(Math.random() * 20000);
-    const child = spawn(process.execPath, ['server.js'], { cwd: temp, env: { ...process.env, PORT: String(port) }, stdio: 'ignore' });
+    const child = spawn(process.execPath, ['server.js'], {
+        cwd: temp,
+        env: {
+            ...process.env,
+            MONGODB_URI: '',
+            NODE_PATH: path.join(root, 'node_modules'),
+            PORT: String(port)
+        },
+        stdio: 'ignore'
+    });
     try {
         let ready = false;
         for (let i = 0; i < 60; i++) {
@@ -51,6 +78,8 @@ test('Contact API validates inputs and persists data in JSON', async () => {
             await new Promise(r => setTimeout(r, 50));
         }
         assert.ok(ready, 'server did not start');
+        const adventuresResponse = await fetch(`http://127.0.0.1:${port}/api/adventures`);
+        assert.equal(adventuresResponse.status, 503);
         const submit = data => fetch(`http://127.0.0.1:${port}/api/contact`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
         const invalidResponse = await submit({ name: '', email: 'bad', subject: 'Support', message: '' });
         assert.equal(invalidResponse.status, 400);
