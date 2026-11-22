@@ -6,6 +6,7 @@ require("dotenv").config({ path: path.join(__dirname, ".env") });
 const mongoose = require("mongoose");
 const { connectDatabase } = require("./config/database");
 const Adventure = require("./models/Adventure");
+const adventureRoutes = require("./routes/adventureRoutes");
 
 const app = express();
 const root = __dirname;
@@ -14,6 +15,13 @@ const suggestionsFile = path.join(root, "suggestions.json");
 const port = Number(process.env.PORT) || 3000;
 
 app.use(express.json({ limit: "16kb" }));
+app.use("/api/adventures", (req, res, next) => {
+    if (mongoose.connection.readyState !== 1) {
+        return res.status(503).json({ error: "MongoDB is not connected." });
+    }
+
+    next();
+}, adventureRoutes);
 
 // Protect private project files from being accessed through the browser.
 app.use((req, res, next) => {
@@ -332,21 +340,6 @@ app.get("/api/weather", async (req, res) => {
         res.status(502).json({
             error: "Unable to retrieve weather right now."
         });
-    }
-});
-
-app.get("/api/adventures", async (req, res) => {
-    if (mongoose.connection.readyState !== 1) {
-        return res.status(503).json({ error: "MongoDB is not connected." });
-    }
-
-    try {
-        const adventures = await Adventure.find({}).lean().exec();
-
-        res.json(adventures);
-    } catch (error) {
-        console.error("Could not load adventures:", error.message);
-        res.status(500).json({ error: "Could not load adventures." });
     }
 });
 
