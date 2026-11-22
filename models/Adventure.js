@@ -53,7 +53,8 @@ const adventureSchema = new mongoose.Schema({
         trim: true
     }
 }, {
-    collection: "adventures"
+    collection: "adventures",
+    timestamps: true
 });
 
 module.exports = mongoose.model("Adventure", adventureSchema);

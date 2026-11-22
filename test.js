@@ -11,6 +11,8 @@ const Adventure = require('./models/Adventure');
 test('Adventure model accepts the existing adventure data shape', () => {
     const adventures = JSON.parse(fs.readFileSync(path.join(root, 'adventures.json'), 'utf8'));
 
+    assert.equal(Adventure.schema.options.timestamps, true);
+
     for (const adventure of adventures) {
         assert.equal(new Adventure(adventure).validateSync(), undefined);
     }
