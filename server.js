@@ -2,8 +2,12 @@
 const express = require("express");
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const { MongoClient } = require("mongodb");
 
 const app = express();
+const mongoClient = process.env.MONGODB_URI
+    ? new MongoClient(process.env.MONGODB_URI)
+    : null;
 const root = __dirname;
 const dataFile = path.join(root, "contact-submissions.json");
 const suggestionsFile = path.join(root, "suggestions.json");
@@ -331,6 +335,24 @@ app.get("/api/weather", async (req, res) => {
     }
 });
 
+app.get("/api/adventures", async (req, res) => {
+    if (!mongoClient) {
+        return res.status(503).json({ error: "Set MONGODB_URI first." });
+    }
+
+    try {
+        const adventures = await mongoClient
+            .db("random_adventure")
+            .collection("adventures")
+            .find({})
+            .toArray();
+
+        res.json(adventures);
+    } catch (error) {
+        console.error("Could not load adventures:", error.message);
+        res.status(500).json({ error: "Could not load adventures." });
+    }
+});
 
 // Start the Express server.
 app.listen(port, () => {
