@@ -7,6 +7,7 @@
     <title>Random Adventure - Adventures</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="filters.css">
+    <link rel="stylesheet" href="weather.css">
 </head>
 <body>
 <header>
@@ -28,6 +29,44 @@
 </div>
 
 <div class="container">
+    <!-- Weather Section -->
+<section class="weather-panel">
+    <div class="weather-heading">
+        <div>
+            <h2>Current Weather</h2>
+            <p>Check the weather before choosing your next adventure.</p>
+        </div>
+        <span class="weather-icon">☀</span>
+    </div>
+
+    <div id="weather-result" class="weather-result">
+        <p id="weather-status">Loading weather...</p>
+
+        <div id="weather-info" hidden>
+            <div class="weather-main">
+                <div>
+                    <h3 id="weather-location">Gurugram, India</h3>
+                    <p id="weather-condition"></p>
+                </div>
+                <strong id="weather-temperature"></strong>
+            </div>
+
+            <div class="weather-details">
+                <p>Feels like: <strong id="weather-feels"></strong></p>
+                <p>Humidity: <strong id="weather-humidity"></strong></p>
+                <p>Wind: <strong id="weather-wind"></strong></p>
+                <p>Rain: <strong id="weather-rain"></strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="weather-footer">
+        <small id="weather-updated"></small>
+        <button type="button" id="weather-refresh">
+            ↻ Refresh Weather
+        </button>
+    </div>
+</section>
 
     <!-- Adventure Filters -->
     <div class="filters">
@@ -66,6 +105,6 @@
 </footer>
 
 <script src="script.js"></script>
-
+<script src="weather.js"></script>
 </body>
 </html>
