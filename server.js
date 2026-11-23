@@ -4,7 +4,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 const mongoose = require("mongoose");
-const { connectDatabase } = require("./config/database");
+const connectDB = require("./mongodb");
 const Adventure = require("./models/Adventure");
 const adventureRoutes = require("./routes/adventureRoutes");
 
@@ -344,26 +344,21 @@ app.get("/api/weather", async (req, res) => {
 });
 
 async function startServer() {
-    if (process.env.MONGODB_URI) {
-        try {
-            await connectDatabase(process.env.MONGODB_URI);
-            const collectionName = Adventure.collection.collectionName;
-            const collectionExists = await mongoose.connection.db
-                .listCollections({ name: collectionName }, { nameOnly: true })
-                .hasNext();
+    await connectDB();
 
-            if (!collectionExists) {
-                await Adventure.createCollection();
-            }
+    try {
+        const collectionName = Adventure.collection.collectionName;
+        const collectionExists = await mongoose.connection.db
+            .listCollections({ name: collectionName }, { nameOnly: true })
+            .hasNext();
 
-            console.log(`MongoDB connected; using collection "${collectionName}".`);
-        } catch (error) {
-            console.error("Unable to start because MongoDB connection failed:", error.message);
-            process.exitCode = 1;
-            return;
+        if (!collectionExists) {
+            await Adventure.createCollection();
         }
-    } else {
-        console.warn("MONGODB_URI is not set; MongoDB-backed adventure requests are disabled.");
+    } catch (error) {
+        console.error("Unable to prepare the adventures collection:", error.message);
+        process.exitCode = 1;
+        return;
     }
 
     app.listen(port, () => {

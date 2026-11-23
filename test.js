@@ -60,11 +60,15 @@ test('Contact API validates inputs and persists data in JSON', async () => {
     fs.mkdirSync(path.join(temp, 'config'));
     fs.mkdirSync(path.join(temp, 'models'));
     fs.mkdirSync(path.join(temp, 'routes'));
+    fs.copyFileSync(path.join(root, 'mongodb.js'), path.join(temp, 'mongodb.js'));
     fs.copyFileSync(path.join(root, 'config', 'database.js'), path.join(temp, 'config', 'database.js'));
     fs.copyFileSync(path.join(root, 'models', 'Adventure.js'), path.join(temp, 'models', 'Adventure.js'));
     fs.copyFileSync(path.join(root, 'routes', 'adventureRoutes.js'), path.join(temp, 'routes', 'adventureRoutes.js'));
     const port = 30000 + Math.floor(Math.random() * 20000);
-    const child = spawn(process.execPath, ['server.js'], {
+    const child = spawn(process.execPath, [
+        '-e',
+        'require("./server").app.listen(Number(process.env.PORT), "127.0.0.1")'
+    ], {
         cwd: temp,
         env: {
             ...process.env,

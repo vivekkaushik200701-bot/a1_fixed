@@ -18,7 +18,7 @@ Requires Node.js 18 or newer and MongoDB Community Server running locally, or a 
 
 To import the records from `adventures.json` into MongoDB, stop the server if it is running and run `npm run import:data`. The import matches records by adventure name and only inserts names not already in the collection; it does not replace or delete existing records. You can run it again safely.
 
-If `MONGODB_URI` is missing, the server still starts so the existing site and JSON-backed contact/suggestion APIs remain usable, but `/api/adventures` returns `503`. If a configured MongoDB connection fails at startup, the error is printed and the server does not start.
+The server requires a MongoDB URI (`MONGO_URI` or `MONGODB_URI`) and starts only after the database connects. If the URI is missing or the connection fails, startup stops with an error.
 
 Contact submissions and adventure suggestions continue to be stored locally in JSON files. Do not publish real submissions or commit them to a public repository.
 
